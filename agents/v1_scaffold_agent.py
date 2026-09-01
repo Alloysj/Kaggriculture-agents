@@ -1,37 +1,3 @@
-"""
-Kaggriculture — Rule-Based Starter Agent
-=========================================
-
-This is a heuristic (non-learned) baseline agent. It makes no API calls and
-needs no training — it's meant to get you a working submission fast and to
-give you a benchmark to beat with imitation learning / RL later.
-
-IMPORTANT — before you submit this:
-1. Run `print(observation)` and `print(configuration)` once inside the real
-   `kaggle_environments` env to see the ACTUAL field names. I do not have
-   access to the live schema, so every `obs.get("...")` / `config.get("...")`
-   key below is a PLACEHOLDER based on the domain description (crops,
-   livestock, land, labor, market prices, 720 turns / 30-day season).
-   Search-and-replace the placeholder keys with the real ones.
-2. Fill in CROP_ECONOMICS with real numbers pulled from the
-   "Kaggriculture, Visualized: What Every Crop Pays" notebook (open it in
-   your browser — I couldn't scrape its rendered output) or from
-   episode_features.csv in the Kaggriculture Episodes dataset.
-3. Same for LIVESTOCK_ECONOMICS and land/labor costs if those exist as
-   separate action types.
-
-Strategy encoded here (tune freely):
-- Never overspend: keep a cash buffer so a HIRE/BUY doesn't zero you out.
-- Plant the crop with the best profit-per-tile among what you can currently
-  afford and have land for.
-- Hire labor only up to the point where marginal labor cost still pays for
-  itself given current planted tiles.
-- Buy land once cash comfortably exceeds a reserve threshold — expansion is
-  usually only worth it once your economic engine (crew + crops) is running.
-- Sell into the market when price is at/above a trailing average, hold when
-  price is below it (basic momentum/reversion sell rule) — replace with a
-  real price series once you know the market mechanics from the notebook.
-"""
 
 import statistics
 

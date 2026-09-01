@@ -2,9 +2,6 @@
 Kaggriculture — Rule-Based Starter Agent (v2)
 ===============================================
 
-Grounded in the ACTUAL kaggle_environments source (kaggriculture.py), not
-guesses. Key mechanics this agent leans on:
-
 - CROPS / ANIMALS / market pricing all come from the real module constants.
 - Watering is near-mandatory maintenance: 2 consecutive unwatered days turns
   a tile into a WEED, independent of whether watering boosts yield_units
@@ -20,12 +17,6 @@ guesses. Key mechanics this agent leans on:
   auto-dropped to the shed at end of day (_drop_inventories_to_shed), so we
   don't need explicit DROP/PICKUP moves for a first pass.
 
-Not covered yet (left as clearly marked TODOs — extend once you want the
-extra complexity): livestock (BUILD_COOP/PASTURE, BUY_ANIMAL, FEED, CARE,
-COLLECT_FERTILIZER, FERTILIZE) and manual DROP/PICKUP for intraday selling.
-
-Run this file directly for a local smoke test against the built-in
-"random" agent.
 """
 
 import statistics
@@ -62,14 +53,6 @@ def _should_sell(product, price):
 
 
 def _best_crop(money, prices):
-    """
-    Rank plantable crops by rough profit-per-day-in-ground:
-        (max_yield * current_price - seed_cost) / max_yield_day
-    This ignores the fact that selling many units will push price down and
-    that non-ongoing crops need active watering to hit max_yield — it's a
-    starting heuristic, not a simulator. Only considers crops we can afford
-    to seed right now.
-    """
     scored = []
     for crop, info in CROPS.items():
         if info["seed"] > money - CASH_RESERVE:
@@ -97,13 +80,6 @@ def _step_toward(fx, fy, tx, ty):
 
 
 def _is_mature(tile, day):
-    """
-    Non-ongoing crops start with yield_units=1 the instant they're planted,
-    but the engine still rejects HARVEST until `first_yield_day` has passed
-    (day - planted_day >= first_yield_day). Checking yield_units alone is
-    not enough — a bot that ignores this gets stuck repeatedly attempting
-    an invalid HARVEST on a still-growing plant instead of watering it.
-    """
     crop_info = CROPS.get(tile.get("crop"))
     if crop_info is None:
         return False
@@ -111,13 +87,6 @@ def _is_mature(tile, day):
 
 
 def _scan_targets(farm, board_size, best_crop, have_seed, day):
-    """
-    Every actionable tile on the board, tagged by purpose. Shared across all
-    units (farmer + hands) — each unit independently picks its own nearest
-    target, so multiple units may converge on the same tile. That's fine:
-    HARVEST/WATER/PLANT are idempotent no-ops once done, and duplicate PLANT
-    requests beyond available seeds are dropped atomically by the engine.
-    """
     harvestable, needs_water, plantable = [], [], []
     for y in range(board_size):
         for x in range(board_size):

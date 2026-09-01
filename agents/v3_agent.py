@@ -1,48 +1,6 @@
 """
 Kaggriculture — Rule-Based Starter Agent (v3)
 ===============================================
-
-Builds on v2, folding in three measured findings from
-"Kaggriculture, Visualized: What Every Crop Pays" (georgymamarin):
-
-1. DIVERSIFY ACROSS CROPS. Melon's paper profit-per-tile-day crushes
-   everything else at *base* prices, but its oversupply curve is
-   quadratic — the notebook's own dump simulation shows a full 100-unit
-   shed of melon sold at once keeps under a tenth of the price the first
-   unit promised, and the market hits the $1 floor after ~158 net units
-   sold. Wheat and egg barely move even after hundreds of units. A
-   single-crop bot walks straight into its own price crash; this agent
-   spreads planting across the top few crops by *current* profit/tile-day
-   instead.
-
-2. TRICKLE-SELL. Orders resolve unit by unit and the price slides while
-   you sell, in both directions. This agent caps how much of one product
-   it sells in a single turn instead of dumping the whole shed at once.
-
-3. BUY LAND AGGRESSIVELY. Even the $4,000 third quadrant pays back in
-   under a week at a modest $25/tile-day (25 tiles x that rate), so this
-   agent checks against the REAL next-tier price (from LAND_PRICES) and
-   buys as soon as it's affordable with reserve to spare, rather than
-   using one flat guessed threshold for all three tiers.
-
-Everything else keeps the v2 fixes: harvest is gated on `first_yield_day`
-maturity (not just yield_units > 0 — non-ongoing crops start with
-yield_units=1 the instant they're planted but aren't legally harvestable
-yet), watering is treated as near-mandatory daily maintenance, and hire
-cost resets to cheap-Fibonacci every in-game day so the crew is
-re-hired daily.
-
-NOT covered yet (left as a clear next step, not bolted on half-tested):
-livestock (BUILD_COOP/PASTURE, BUY_ANIMAL, FEED, CARE,
-COLLECT_FERTILIZER) and fertilizer. The source notebook ranks this as
-a real improvement (animals are compounding assets that also print free
-fertilizer, which is the only way wheat reaches its yield cap) — it's
-just a genuinely stateful multi-step routine (pickup wheat -> feed ->
-care -> harvest -> drop) that deserves its own tested pass rather than
-being rushed in here.
-
-Run this file directly for a local smoke test / benchmark against the
-built-in "random", "starter", and "pass" agents.
 """
 
 import statistics
