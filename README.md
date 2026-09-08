@@ -53,6 +53,4 @@ Local runs of v3 have shown results ranging from ~$1,300 to ~$21,000 average acr
 - **Dynamic sell-batch sizing** - currently a flat cap; could instead invert the market's price-impact curve per product.
 - **Proper task allocation** - units are currently assigned crops by round-robin index rather than by nearest-unit-to-nearest-task.
 
-## Submitting
 
-The notebook's last two cells `%%writefile` the agent to `agents/main.py` (gitignored - it's a build artifact) and replay-test it before you upload it to the competition.
