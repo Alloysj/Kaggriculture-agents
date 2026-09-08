@@ -90,7 +90,7 @@ whatever the leaderboard's aggregation does with the number:
    BUY_LAND now also requires LAND_UTILIZATION_THRESHOLD (75%) of owned
    land to be actively planted first, and crew size scales with owned
    land (1 hand per TILES_PER_HAND=5 tiles) instead of a flat target.
-   
+
 """
 
 import statistics
