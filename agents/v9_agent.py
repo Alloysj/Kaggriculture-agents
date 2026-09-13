@@ -67,13 +67,7 @@ a real Kaggle replay -- see that docstring below) by adding:
 
 --- v5 docstring, unchanged below ---
 
-Fixes two bugs found by analyzing the JSON replay of an ACTUAL Kaggle
-submission (episode 105633438, module_version 1.32.7) -- not sandbox
-guesses. That replay's leaderboard-visible score (300, rank 6000/7000)
-was far below its own in-episode final money (12,721, actually a win
-over the opponent's 11,921), and tracing the replay turn-by-turn found
-why the STRATEGY itself was unreliable across games, independent of
-whatever the leaderboard's aggregation does with the number:
+bug fixes
 
 1. THE RESERVE-FLOOR FREEZE. The replay showed money sitting at EXACTLY
    $100 (the old flat CASH_RESERVE) for a full week of the 30-day season
